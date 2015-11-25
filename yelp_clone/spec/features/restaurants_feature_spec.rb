@@ -20,6 +20,7 @@ feature 'restaurants' do
       expect(page).not_to have_content('No restaurants yet')
     end
   end
+
   context 'creating restaurants' do
     scenario 'prompts user to fill out a form, then displays the new restaurant' do
       visit '/restaurants'
@@ -29,6 +30,7 @@ feature 'restaurants' do
       expect(page).to have_content 'KFC'
       expect(current_path).to eq '/restaurants'
     end
+
     context 'an invalid restaurant' do
       it 'does not let you submit a name that is too short' do
         visit '/restaurants'
@@ -73,25 +75,4 @@ feature 'restaurants' do
       expect(page).to have_content 'Restaurant deleted successfully'
     end
   end
-
-  context 'an invalid restaurant' do
-    it 'does not let you submit a name that is too short' do
-      visit '/restaurants'
-      click_link 'Add a restaurant'
-      fill_in 'Name', with: 'kf'
-      click_button 'Create Restaurant'
-      expect(page).not_to have_css 'h2', text: 'kf'
-      expect(page).to have_content 'error'
-    end
-  end
-
-  describe Restaurant, :type => :model do
-    it 'is not valid with a name of less than three characters' do
-      restaurant = Restaurant.new(name: "kf")
-      expect(restaurant).to have(1).error_on(:name)
-      expect(restaurant).not_to be_valid
-    end
-  end
-
-
 end
