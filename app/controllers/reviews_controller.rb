@@ -3,10 +3,18 @@ class ReviewsController < ApplicationController
     @restaurant = Restaurant.find(params[:restaurant_id])
     @review = Review.new
   end
+
   def create
-    @restaurant = Restaurant.find(params[:restaurant_id])
-    @restaurant.reviews.create(review_params)
-    redirect_to restaurants_path
+    if current_user
+      @restaurant = Restaurant.find(params[:restaurant_id])
+      p = review_params
+      p["user_id"] = current_user.id
+      @restaurant.reviews.create(p)
+      redirect_to restaurants_path
+    else
+      redirect_to restaurants_path, :flash =>
+      { :notice => "Insufficient rights!"  }
+    end
   end
 
   def review_params

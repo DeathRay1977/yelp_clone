@@ -2,10 +2,14 @@ source 'https://rubygems.org'
 
 group :test do
   gem 'rspec-rails'
+  gem 'guard-rspec'
   gem 'capybara'
   gem 'rspec-collection_matchers'
   gem 'shoulda'
+  gem 'database_cleaner'
 end
+
+gem 'spring-commands-rspec', group: :development
 gem 'dotenv-rails', :groups => [:development, :test]
 gem 'devise'
 gem 'omniauth-facebook'
